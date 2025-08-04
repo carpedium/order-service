@@ -1,14 +1,16 @@
 package com.oss.order_service.controller;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import static org.springframework.data.domain.Sort.Direction.ASC;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,7 @@ public class OrderController {
 		return ResponseEntity.ok(dto);
 	}
 	
-	@GetMapping("/get")
+	@PostMapping("/get")
 	public ResponseEntity<List<ProductOrderDto>> getProducts  ( 
 			@RequestBody ProductOrderDto dto,
 			@PageableDefault(page = 0, size=2, sort = "id", direction = ASC) Pageable pageable
