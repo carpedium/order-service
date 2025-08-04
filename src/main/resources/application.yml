@@ -9,7 +9,7 @@ spring:
     platform: h2
   jpa:
     hibernate:
-      ddl-auto: none  # Ensures schema.sql is used, not Hibernate auto-DDL
+      ddl-auto: create-drop  # Ensures schema.sql is used, not Hibernate auto-DDL
     show-sql: true
     properties:
       hibernate:

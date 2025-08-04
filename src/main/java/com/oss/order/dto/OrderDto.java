@@ -1,16 +1,19 @@
-package com.oss.order_service.dto;
+package com.oss.order.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductOrderDto {
+@Builder
+public class OrderDto {
+	private Long id;
 	private String name;
 
 	@Enumerated(EnumType.STRING)

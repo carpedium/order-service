@@ -1,4 +1,4 @@
-package com.oss.order_service.dto;
+package com.oss.order.dto;
 
 public enum OrderType {
 	FIXED_LINE,
