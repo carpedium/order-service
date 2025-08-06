@@ -1,12 +1,14 @@
 spring:
   application:
     name: order-service
+
   datasource:
     url: jdbc:h2:mem:ordersdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
     platform: h2
+
   jpa:
     hibernate:
       ddl-auto: create-drop  # Ensures schema.sql is used, not Hibernate auto-DDL
@@ -14,9 +16,32 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+
   h2:
     console:
       enabled: true
       path: /h2-console
+
 server:
   port: 8080
+
+management:
+  endpoint:
+    heapdump:
+      enabled: true
+    threaddump:
+      enabled: true
+    health:
+      probes:
+        enabled: true  # ✅ Enables liveness and readiness probes
+
+  endpoints:
+    web:
+      exposure:
+        include: health, info, heapdump, threaddump
+
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
