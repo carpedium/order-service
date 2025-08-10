@@ -23,7 +23,10 @@ import com.oss.order.mapper.ProductOrderMapper;
 import com.oss.order.repository.OrderRepo;
 import com.oss.order.spec.ProductOrderSpec;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class OrderService {
 
 	@Autowired
@@ -35,7 +38,7 @@ public class OrderService {
 	@Autowired
 	private ProductOrderMapper modelMapper; // Or convert manually
 
-	public OrderDto findById(Integer id) {
+	public OrderDto findById(Long id) {
 		Optional<Order> p = repo.findById(id);
 		ObjectMapper mapper=new ObjectMapper();
 		OrderDto dto = mapper.convertValue( (p.isEmpty() ? null : p.get()), OrderDto.class);
@@ -68,35 +71,40 @@ public class OrderService {
 
 	public OrderDto createOrder(OrderDto dto) {
 		
-		System.out.println("1  : dto "+dto);
+		log.info("1  : dto "+dto);
 
 		Order po=modelMapper.toEntity(dto);
 		po.setStatus(OrderStatus.COMPLETED);
-		System.out.println("2  : po "+po);
+		log.info("2  : po "+po);
 		
 		po = repo.save(po);
 		
-		System.out.println("3  : po "+po);
+		log.info("3  : po "+po);
 		
 		DeviceInstanceDTO deviceDto = DeviceInstanceDTO.builder()
 				.status("AVAILABLE")
 				.deviceType( dto.getOrderType().equals(OrderType.MOBILE)?  "MOBILE" : "LANDLINE")
 				.build();
 
-		System.out.println("4  : deviceDto "+deviceDto);
+		log.info("4  : deviceDto "+deviceDto);
 
 		deviceDto = iClient.findTopByExample(deviceDto).getBody();
 		
-		System.out.println("5  : deviceDto "+deviceDto);
+		log.info("5  : deviceDto "+deviceDto);
 
 		deviceDto.setUsedForId(po.getId());
 		deviceDto.setStatus("ACTIVE");
 		
-		System.out.println("6  : deviceDto "+deviceDto);
+		log.info("6  : deviceDto "+deviceDto);
 
 		
 		iClient.update(deviceDto);
-		System.out.println("7  : po "+po);
+		log.info("7  : po "+po);
+		
+		iClient.probe();
+		
+		log.info("8 : probe ");
+
 
 		return modelMapper.toDto(po);
 	}

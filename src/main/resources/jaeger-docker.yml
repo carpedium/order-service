@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "9411:9411"     # Zipkin ingest (HTTP)
+      - "4317:4317"     # OTLP gRPC
+      - "4318:4318"     # OTLP HTTP

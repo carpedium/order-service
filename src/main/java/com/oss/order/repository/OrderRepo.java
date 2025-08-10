@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.oss.order.entity.Order;
 
 @Repository
-public interface OrderRepo extends JpaRepository<Order, Integer>, JpaSpecificationExecutor<Order>{
+public interface OrderRepo extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order>{
 
 }
